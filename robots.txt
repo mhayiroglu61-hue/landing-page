@@ -1,0 +1,8 @@
+# Mahmut Hayıroğlu - Dijital Pazarlama Uzmanı
+# https://mahmuthayiroglu.com/
+
+User-agent: *
+Allow: /
+Disallow: /.netlify/
+
+Sitemap: https://mahmuthayiroglu.com/sitemap.xml
