@@ -166,7 +166,9 @@
         var id = link.getAttribute("href");
         if (id.length < 2) return;
 
-        var target = document.querySelector(id);
+        // getElementById, gelen değeri seçici olarak değil düz metin olarak alır.
+        // querySelector'a serbest metin vermek geçersiz seçicide hata fırlatır.
+        var target = document.getElementById(id.slice(1));
         if (!target) return;
 
         event.preventDefault();
