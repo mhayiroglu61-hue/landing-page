@@ -1,0 +1,38 @@
+# ---- İşletim sistemi ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ---- Editör ve IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+
+# ---- Gizli bilgiler ----
+# API anahtarları ve parolalar asla depoya girmesin
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- Günlük ve geçici dosyalar ----
+*.log
+npm-debug.log*
+tmp/
+temp/
+.cache/
+
+# ---- İleride araç eklenirse ----
+node_modules/
+dist/
+build/
+.parcel-cache/
+
+# ---- Claude Code yerel ayarları ----
+.claude/settings.local.json

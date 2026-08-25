@@ -1,0 +1,677 @@
+/* =========================================================
+   Mahmut Hayıroğlu - Dijital Pazarlama Uzmanı
+   Koyu tema, mobile-first, harici kütüphane yok.
+   ========================================================= */
+
+/* ---------- 1. Değişkenler ---------- */
+:root {
+  /* Arka plan gradyanı */
+  --bg-start: #000000;
+  --bg-end:   #707070;
+
+  /* Yüzeyler */
+  --card:        #101210;
+  --card-hover:  #151815;
+  --panel:       rgba(16, 18, 16, 0.72);
+  --border:      rgba(255, 255, 255, 0.10);
+  --border-soft: rgba(255, 255, 255, 0.06);
+
+  /* Yeşil */
+  --green:       #7ED957;
+  --green-deep:  #00BF63;
+  --green-soft:  rgba(126, 217, 87, 0.12);
+
+  /* Metin */
+  --text:       #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.68);
+  --text-dim:   rgba(255, 255, 255, 0.60);
+  --navy:       #062A45;
+
+  /* Tipografi: klasik sans-serif */
+  --font: Arial, "Helvetica Neue", Helvetica, sans-serif;
+
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.9375rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.0625rem;
+  --fs-xl:   1.25rem;
+  --fs-2xl:  1.75rem;
+  --fs-3xl:  2.25rem;
+
+  /* Ölçek */
+  --radius:      12px;
+  --radius-sm:   8px;
+  --radius-pill: 999px;
+  --container:   1120px;
+  --header-h:    64px;
+
+  --shadow-cta:  0 12px 28px rgba(126, 217, 87, 0.28);
+  --shadow-card: 0 16px 34px rgba(0, 0, 0, 0.45);
+  --transition:  220ms ease;
+}
+
+/* ---------- 2. Sıfırlama ve temel ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: 1.7;
+  overflow-x: hidden;
+  background-color: var(--bg-start);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Diyagonal gradyan: sabit katman.
+   iOS Safari background-attachment: fixed'i doğru işlemediği için pseudo eleman kullanılıyor. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--bg-start) 0%, #0a0a0a 28%, #3a3a3a 68%, var(--bg-end) 100%);
+}
+
+body.nav-open { overflow: hidden; }
+
+h1, h2, h3 {
+  margin: 0 0 0.5em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+p { margin: 0 0 1em; }
+ul { margin: 0; padding: 0; list-style: none; }
+svg { display: block; max-width: 100%; }
+
+a { color: var(--green); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--green-deep); }
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--green); color: var(--navy); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--green);
+  color: var(--navy);
+  font-weight: 700;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+.skip-link:focus { left: 0; color: var(--navy); }
+
+/* ---------- 3. Yerleşim ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section { padding: 72px 0; }
+.section-dark {
+  background: rgba(0, 0, 0, 0.34);
+  border-block: 1px solid var(--border-soft);
+}
+
+.section-head { margin-bottom: 32px; }
+.section-title { font-size: var(--fs-2xl); margin-bottom: 16px; }
+.section-head .section-title { margin-bottom: 0; }
+
+/* Etiket: HERO ve bölüm üstü küçük yeşil başlık */
+.tag {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 6px 14px;
+  border: 1px solid var(--green-deep);
+  border-radius: var(--radius-pill);
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- 4. Butonlar ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 14px 30px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.btn-primary {
+  background: var(--green);
+  color: var(--navy);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.btn-primary:hover {
+  background: var(--green-deep);
+  color: var(--navy);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-cta);
+}
+.btn-primary:active { transform: translateY(-1px); }
+
+/* ---------- 5. Başlık ve menü ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition);
+}
+.site-header.is-scrolled {
+  background: rgba(0, 0, 0, 0.86);
+  border-bottom-color: var(--border);
+}
+
+.header-inner {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo { display: flex; align-items: center; gap: 12px; color: var(--text); }
+.logo:hover { color: var(--text); }
+.logo-mark {
+  width: 4px;
+  height: 24px;
+  border-radius: 2px;
+  background: var(--green);
+}
+.logo-text {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-toggle {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.nav-toggle-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav {
+  position: fixed;
+  inset: var(--header-h) 0 auto 0;
+  padding: 8px 20px 20px;
+  background: rgba(0, 0, 0, 0.96);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+}
+.nav.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.nav-list { display: flex; flex-direction: column; }
+.nav-list a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-soft);
+}
+.nav-list a:hover, .nav-list a.is-active { color: var(--green); }
+.nav-list li:last-child a { border-bottom: none; }
+.nav-cta { color: var(--green) !important; }
+
+/* ---------- 6. Hero ---------- */
+.hero {
+  position: relative;
+  padding: 72px 0 88px;
+  overflow: hidden;
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 720px; }
+
+.hero-title {
+  font-size: var(--fs-3xl);
+  letter-spacing: 0.005em;
+  margin-bottom: 18px;
+}
+
+.hero-lead {
+  max-width: 46ch;
+  margin-bottom: 30px;
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* İmza öğesi: yükseliş çizgisi */
+.growth {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  height: 68%;
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 100%);
+          mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 100%);
+}
+.growth-svg { width: 100%; height: 100%; }
+
+.growth-grid line {
+  stroke: rgba(255, 255, 255, 0.07);
+  stroke-width: 1;
+}
+
+.growth-bars rect {
+  fill: rgba(126, 217, 87, 0.10);
+  transform-origin: 50% 390px;
+  transform: scaleY(0);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.growth-area {
+  fill: url(#growthArea);
+  opacity: 0;
+  transition: opacity 900ms ease 700ms;
+}
+.growth-line {
+  fill: none;
+  stroke: url(#growthStroke);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  filter: drop-shadow(0 0 10px rgba(126, 217, 87, 0.45));
+}
+.growth-dot {
+  fill: var(--green);
+  opacity: 0;
+  filter: drop-shadow(0 0 10px rgba(126, 217, 87, 0.8));
+}
+
+/* Animasyon sayfa yüklenince tetiklenir */
+.growth.is-live .growth-bars rect { transform: scaleY(1); }
+.growth.is-live .growth-bars rect:nth-child(1) { transition-delay: 120ms; }
+.growth.is-live .growth-bars rect:nth-child(2) { transition-delay: 220ms; }
+.growth.is-live .growth-bars rect:nth-child(3) { transition-delay: 320ms; }
+.growth.is-live .growth-bars rect:nth-child(4) { transition-delay: 420ms; }
+.growth.is-live .growth-bars rect:nth-child(5) { transition-delay: 520ms; }
+.growth.is-live .growth-bars rect:nth-child(6) { transition-delay: 620ms; }
+
+.growth.is-live .growth-area { opacity: 1; }
+.growth.is-live .growth-line { animation: draw 1900ms cubic-bezier(0.33, 0.9, 0.4, 1) forwards; }
+.growth.is-live .growth-dot { animation: pop 500ms ease 1700ms forwards, pulse 2600ms ease-in-out 2200ms infinite; }
+
+/* Hero ekrandan çıkınca sonsuz animasyon boşuna çalışmasın */
+.growth.is-idle .growth-dot { animation-play-state: paused; }
+
+@keyframes draw  { to { stroke-dashoffset: 0; } }
+@keyframes pop   { from { opacity: 0; r: 3; } to { opacity: 1; r: 7; } }
+@keyframes pulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(126, 217, 87, 0.55)); }
+  50%      { filter: drop-shadow(0 0 18px rgba(126, 217, 87, 0.95)); }
+}
+
+/* ---------- 7. Hizmet kartları ---------- */
+.cards { display: grid; gap: 18px; }
+
+.card {
+  position: relative;
+  padding: 26px 24px 24px 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform var(--transition), border-color var(--transition),
+              background var(--transition), box-shadow var(--transition);
+}
+
+/* Solda ince yeşil dikey vurgu çubuğu */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--green);
+  transition: background var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  background: var(--card-hover);
+  border-color: var(--green-deep);
+  box-shadow: var(--shadow-card);
+}
+.card:hover::before { background: var(--green-deep); }
+
+.card-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 18px;
+  border-radius: var(--radius-sm);
+  background: var(--green-soft);
+  border: 1px solid rgba(126, 217, 87, 0.28);
+  color: var(--green);
+}
+.card-icon svg { width: 23px; height: 23px; }
+
+.card h3 { font-size: var(--fs-base); letter-spacing: 0.04em; margin-bottom: 10px; }
+.card p { margin: 0; color: var(--text-muted); font-size: var(--fs-sm); }
+
+/* ---------- 8. Hakkımda ---------- */
+.about { display: grid; gap: 28px; }
+.about-text p:not(.tag) { color: var(--text-muted); margin: 0; }
+
+.about-panel {
+  padding: 6px 22px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.facts li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.facts li:last-child { border-bottom: none; }
+
+.fact-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.fact-value { font-size: var(--fs-sm); color: var(--text); }
+
+/* ---------- 9. İletişim ---------- */
+.contact {
+  padding: 28px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.contact-lead { margin: 0; color: var(--text-muted); }
+
+.contact-links {
+  display: grid;
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 12px 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+.contact-link:hover {
+  transform: translateY(-3px);
+  color: var(--text);
+  border-color: var(--green-deep);
+  background: rgba(126, 217, 87, 0.07);
+}
+
+.contact-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--green-soft);
+  color: var(--green);
+}
+.contact-icon svg { width: 21px; height: 21px; }
+
+.contact-body { display: flex; flex-direction: column; min-width: 0; }
+.contact-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.contact-value {
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- 10. Alt bilgi ---------- */
+.site-footer {
+  background: rgba(0, 0, 0, 0.6);
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+}
+.footer-inner p { margin: 0; }
+.footer-brand {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: var(--fs-sm);
+}
+.footer-copy { margin-top: 8px !important; color: var(--text-dim); font-size: var(--fs-xs); }
+
+/* ---------- 11. Giriş animasyonu ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 560ms ease, transform 560ms ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---------- 11b. Sayfa yüklenirken fade-in ---------- */
+.site-header,
+#main,
+.site-footer {
+  animation: page-in 700ms ease both;
+}
+.site-header { animation-delay: 0ms; }
+#main         { animation-delay: 90ms; }
+.site-footer  { animation-delay: 180ms; }
+
+@keyframes page-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------- 11c. Yukarı çık butonu ---------- */
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: var(--green);
+  color: var(--navy);
+  border: 1px solid var(--green-deep);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  transition: opacity var(--transition), transform var(--transition),
+              visibility var(--transition), background var(--transition),
+              box-shadow var(--transition);
+}
+.to-top svg { width: 22px; height: 22px; }
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.to-top.is-visible:hover {
+  background: var(--green-deep);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-cta);
+}
+.to-top:active { transform: translateY(-1px); }
+
+/* ---------- 12. Kırılma noktaları (mobile-first) ---------- */
+
+/* 480px ve üzeri */
+@media (min-width: 480px) {
+  .container { padding: 0 24px; }
+  .hero-title { font-size: 2.75rem; }
+  .contact { padding: 36px 30px; }
+}
+
+/* 768px ve üzeri */
+@media (min-width: 768px) {
+  :root { --header-h: 72px; }
+
+  .section { padding: 96px 0; }
+  .section-title { font-size: var(--fs-3xl); }
+
+  .hero { padding: 104px 0 120px; }
+  .hero-title { font-size: 3.5rem; }
+  .hero-lead { font-size: var(--fs-xl); }
+
+  .nav-toggle { display: none; }
+  .nav {
+    position: static;
+    padding: 0;
+    background: transparent;
+    border: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav-list { flex-direction: row; align-items: center; gap: 6px; }
+  .nav-list a {
+    min-height: 40px;
+    padding: 0 14px;
+    border-bottom: none;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+  }
+  .nav-cta { border: 1px solid var(--green-deep); margin-left: 8px; }
+  body.nav-open { overflow: auto; }
+
+  .to-top { right: 28px; bottom: 28px; width: 52px; height: 52px; }
+
+  .cards { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .about { grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+
+  .contact { padding: 44px 40px; }
+  .contact-links { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  .footer-inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-copy { margin-top: 0 !important; }
+}
+
+/* 1024px ve üzeri */
+@media (min-width: 1024px) {
+  .section { padding: 112px 0; }
+  .hero { padding: 128px 0 144px; }
+  .hero-title { font-size: 4.25rem; }
+
+  .growth { width: 78%; height: 82%; opacity: 0.62; }
+
+  .card { padding: 30px 28px 28px 32px; }
+  .card h3 { font-size: var(--fs-lg); }
+
+  .about { gap: 72px; }
+  .contact { padding: 56px 52px; }
+}
+
+/* ---------- 13. Hareket tercihi ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal { opacity: 1; transform: none; }
+  .growth-line { stroke-dashoffset: 0; }
+  .growth-area { opacity: 1; }
+  .growth-dot { opacity: 1; }
+  .growth-bars rect { transform: scaleY(1); }
+  .to-top { transform: none; }
+  .to-top.is-visible:hover { transform: none; }
+}
