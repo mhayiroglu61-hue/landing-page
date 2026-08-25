@@ -1,0 +1,54 @@
+# =========================================================
+# Netlify yapılandırması
+# Statik site: build adımı yok, bağımlılık yok.
+# =========================================================
+
+[build]
+  # Yayınlanacak klasör: depo kökü (index.html burada duruyor)
+  publish = "."
+  # Derlenecek bir şey yok, komut bilerek boş
+  command = ""
+
+# ---------------------------------------------------------
+# Güvenlik başlıkları
+# Sayfa hiçbir dış kaynak yüklemiyor, bu yüzden politika
+# olabildiğince sıkı tutuldu. Dışarıdan script eklenmesi
+# gerekirse aşağıdaki script-src satırını güncellemek şart.
+# ---------------------------------------------------------
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    # Sayfa yalnızca kendi alan adındaki dosyaları yükleyebilir.
+    # Sayfada inline <style> ve inline <script> olmadığı için
+    # 'unsafe-inline' kullanmaya gerek yok.
+    Content-Security-Policy = """
+      default-src 'self'; \
+      script-src 'self'; \
+      style-src 'self'; \
+      img-src 'self' data:; \
+      font-src 'self'; \
+      connect-src 'none'; \
+      object-src 'none'; \
+      frame-src 'none'; \
+      frame-ancestors 'none'; \
+      base-uri 'none'; \
+      form-action 'none'; \
+      upgrade-insecure-requests"""
+
+    # Site başka bir sayfaya iframe olarak gömülemesin (clickjacking)
+    X-Frame-Options = "DENY"
+
+    # Tarayıcı dosya türünü tahmin etmeye çalışmasın
+    X-Content-Type-Options = "nosniff"
+
+    # Başka siteye giderken tam adres sızmasın
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Kullanılmayan tarayıcı yetkileri kapalı olsun
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), accelerometer=()"
+
+    # Bir yıl boyunca yalnızca HTTPS üzerinden bağlan.
+    # Alt alan adlarında (ör. blog.mahmuthayiroglu.com) HTTPS
+    # olmayan bir servis çalıştıracaksan includeSubDomains kısmını sil.
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
