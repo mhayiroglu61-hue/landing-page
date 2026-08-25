@@ -52,3 +52,14 @@
     # Alt alan adlarında (ör. blog.mahmuthayiroglu.com) HTTPS
     # olmayan bir servis çalıştıracaksan includeSubDomains kısmını sil.
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ---------------------------------------------------------
+# Netlify .webmanifest uzantısını tanımıyor ve dosyayı
+# application/octet-stream olarak gönderiyor. nosniff başlığı da
+# açık olduğu için tarayıcı manifest'i reddediyor.
+# ---------------------------------------------------------
+[[headers]]
+  for = "/site.webmanifest"
+
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
