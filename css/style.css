@@ -31,7 +31,7 @@
   --font: Arial, "Helvetica Neue", Helvetica, sans-serif;
 
   --fs-xs:   0.75rem;
-  --fs-sm:   0.9375rem;
+  --fs-sm:   1rem;
   --fs-base: 1rem;
   --fs-lg:   1.0625rem;
   --fs-xl:   1.25rem;
@@ -98,7 +98,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 img, svg { display: block; max-width: 100%; }
 
 a { color: var(--green); text-decoration: none; transition: color var(--transition); }
-a:hover { color: var(--green-deep); }
+/* Hover efektleri yalnızca gerçek imleçli cihazlarda uygulanır.
+   Dokunmatikte :hover, dokunuştan sonra takılı kalıyordu. */
+@media (hover: hover) {
+  a:hover { color: var(--green-deep); }
+}
 
 :focus-visible {
   outline: 2px solid var(--green);
@@ -177,11 +181,13 @@ a:hover { color: var(--green-deep); }
   color: var(--navy);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
-.btn-primary:hover {
-  background: var(--green-deep);
-  color: var(--navy);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-cta);
+@media (hover: hover) {
+  .btn-primary:hover {
+    background: var(--green-deep);
+    color: var(--navy);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-cta);
+  }
 }
 .btn-primary:active { transform: translateY(-1px); }
 
@@ -215,7 +221,9 @@ a:hover { color: var(--green-deep); }
   min-width: 0;
   color: var(--text);
 }
-.logo:hover { color: var(--text); }
+@media (hover: hover) {
+  .logo:hover { color: var(--text); }
+}
 .logo-photo {
   display: block;
   flex: 0 0 auto;
@@ -227,7 +235,9 @@ a:hover { color: var(--green-deep); }
   background: var(--card);
   transition: border-color var(--transition);
 }
-.logo:hover .logo-photo { border-color: var(--green-deep); }
+@media (hover: hover) {
+  .logo:hover .logo-photo { border-color: var(--green-deep); }
+}
 
 /* İsmin solundaki yeşil dikey çizgi */
 .logo-mark {
@@ -238,7 +248,8 @@ a:hover { color: var(--green-deep); }
   background: var(--green);
 }
 .logo-text {
-  font-size: var(--fs-sm);
+  /* Ölçeğe bağlı değil: 16px'te dar ekranlarda isim ucundan kırpılıyordu. */
+  font-size: 0.9375rem; /* 15px */
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -296,7 +307,10 @@ a:hover { color: var(--green-deep); }
   text-transform: uppercase;
   border-bottom: 1px solid var(--border-soft);
 }
-.nav-list a:hover, .nav-list a.is-active { color: var(--green); }
+.nav-list a.is-active { color: var(--green); }
+@media (hover: hover) {
+  .nav-list a:hover { color: var(--green); }
+}
 .nav-list li:last-child a { border-bottom: none; }
 .nav-cta { color: var(--green) !important; }
 
@@ -419,13 +433,15 @@ a:hover { color: var(--green-deep); }
   transition: background var(--transition);
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  background: var(--card-hover);
-  border-color: var(--green-deep);
-  box-shadow: var(--shadow-card);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-6px);
+    background: var(--card-hover);
+    border-color: var(--green-deep);
+    box-shadow: var(--shadow-card);
+  }
+  .card:hover::before { background: var(--green-deep); }
 }
-.card:hover::before { background: var(--green-deep); }
 
 .card-icon {
   display: grid;
@@ -498,11 +514,13 @@ a:hover { color: var(--green-deep); }
   border-radius: var(--radius-sm);
   transition: transform var(--transition), border-color var(--transition), background var(--transition);
 }
-.contact-link:hover {
-  transform: translateY(-3px);
-  color: var(--text);
-  border-color: var(--green-deep);
-  background: rgba(126, 217, 87, 0.07);
+@media (hover: hover) {
+  .contact-link:hover {
+    transform: translateY(-3px);
+    color: var(--text);
+    border-color: var(--green-deep);
+    background: rgba(126, 217, 87, 0.07);
+  }
 }
 
 .contact-icon {
@@ -600,10 +618,12 @@ a:hover { color: var(--green-deep); }
   visibility: visible;
   transform: none;
 }
-.to-top.is-visible:hover {
-  background: var(--green-deep);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-cta);
+@media (hover: hover) {
+  .to-top.is-visible:hover {
+    background: var(--green-deep);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-cta);
+  }
 }
 .to-top:active { transform: translateY(-1px); }
 
@@ -642,7 +662,7 @@ a:hover { color: var(--green-deep); }
   }
   .nav-list { flex-direction: row; align-items: center; gap: 6px; }
   .nav-list a {
-    min-height: 40px;
+    min-height: 44px;
     padding: 0 14px;
     border-bottom: none;
     border-radius: var(--radius-pill);
@@ -700,5 +720,8 @@ a:hover { color: var(--green-deep); }
   .growth-dot { opacity: 1; }
   .growth-bars rect { transform: scaleY(1); }
   .to-top { transform: none; }
-  .to-top.is-visible:hover { transform: none; }
+
+  @media (hover: hover) {
+    .to-top.is-visible:hover { transform: none; }
+  }
 }
